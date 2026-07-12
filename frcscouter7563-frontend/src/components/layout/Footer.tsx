@@ -5,7 +5,7 @@ import { FaGithub, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
     return (
-        <footer className="border-t border-zinc-600 bg-zinc-900 text-zinc-300">
+        <footer className="border-t border-zinc-600 bg-black text-zinc-300">
             <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 text-sm">
                 {/* Left */}
                 <span>Made by Team 7563</span>

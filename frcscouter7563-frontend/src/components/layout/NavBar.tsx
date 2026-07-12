@@ -28,7 +28,7 @@ export default function Navbar() {
                         <Link href="/events">Events</Link>
                         <Link href="/teams">Teams</Link>
                         <Link href="/matches">Matches</Link>
-                        <Link href="/scout">Scout</Link>
+                        <Link href="/scouts">Scouts</Link>
                     </div>
                 </div>
 
