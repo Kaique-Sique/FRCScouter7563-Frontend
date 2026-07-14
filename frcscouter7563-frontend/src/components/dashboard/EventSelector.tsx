@@ -1,134 +1,60 @@
-import {
-  CalendarDays,
-  Users,
-  Trophy,
-  Award,
-} from "lucide-react";
+"use client";
 
+import { CalendarDays, ChevronDown } from "lucide-react";
 
-export default function Home() {
-  return (
-    <div className="min-h-screen bg-slate-950 px-6 py-8">
-
-      {/* Welcome */}
-      <section className="mb-8">
-
-        <h1 className="text-3xl font-bold text-white">
-          Welcome to Scouter7563
-        </h1>
-
-        <p className="mt-2 text-slate-400">
-          SESI SENAI Megazord FRC Scouting System
-        </p>
-
-      </section>
-
-
-      {/* Stats */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-
-        <StatCard
-          title="Events"
-          value="24"
-          icon={<CalendarDays />}
-        />
-
-        <StatCard
-          title="Teams"
-          value="156"
-          icon={<Users />}
-        />
-
-        <StatCard
-          title="Matches"
-          value="342"
-          icon={<Trophy />}
-        />
-
-        <StatCard
-          title="Awards"
-          value="12"
-          icon={<Award />}
-        />
-
-      </section>
-
-
-      {/* Content */}
-      <section className="mt-8 grid gap-6 lg:grid-cols-2">
-
-
-        <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
-
-          <h2 className="text-lg font-semibold text-white">
-            Recent Events
-          </h2>
-
-          <p className="mt-3 text-sm text-slate-400">
-            No events available yet.
-          </p>
-
-        </div>
-
-
-        <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
-
-          <h2 className="text-lg font-semibold text-white">
-            Latest Matches
-          </h2>
-
-          <p className="mt-3 text-sm text-slate-400">
-            No matches available yet.
-          </p>
-
-        </div>
-
-
-      </section>
-
-
-    </div>
-  );
+interface EventOption {
+  key: string;
+  name: string;
 }
 
+// TODO: substituir por dados reais vindos da API (GET /events) quando a
+// integração com o backend for feita. Por enquanto ficam alguns eventos
+// de exemplo pra o seletor não ficar vazio.
+const MOCK_EVENTS: EventOption[] = [
+  { key: "2026brbri", name: "2026 Brazil Regional" },
+  { key: "2026miket", name: "2026 Kettering University District" },
+  { key: "2026gadal", name: "2026 Dalton District" },
+];
 
+interface EventSelectorProps {
+  selectedEvent: string;
+  onChange: (event: string) => void;
+}
 
-function StatCard({
-  title,
-  value,
-  icon,
-}: {
-  title: string;
-  value: string;
-  icon: React.ReactNode;
-}) {
-
+export default function EventSelector({
+  selectedEvent,
+  onChange,
+}: EventSelectorProps) {
   return (
-    <div className="
-      rounded-xl
-      border border-slate-800
-      bg-slate-900
-      p-5
-      transition-colors
-      hover:border-slate-700
-    ">
+    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
 
-      <div className="flex items-center justify-between">
+      <label
+        htmlFor="event-selector"
+        className="mb-2 flex items-center gap-2 text-sm text-slate-400"
+      >
+        <CalendarDays size={16} />
+        Current Event
+      </label>
 
-        <p className="text-sm text-slate-400">
-          {title}
-        </p>
+      <div className="relative">
+        <select
+          id="event-selector"
+          value={selectedEvent}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full appearance-none rounded-lg border border-slate-800 bg-slate-950 px-4 py-2.5 pr-10 text-white outline-none transition-colors hover:border-slate-700 focus:border-blue-600"
+        >
+          {MOCK_EVENTS.map((event) => (
+            <option key={event.key} value={event.key}>
+              {event.name}
+            </option>
+          ))}
+        </select>
 
-        <div className="text-slate-400">
-          {icon}
-        </div>
-
+        <ChevronDown
+          size={18}
+          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+        />
       </div>
-
-
-      <p className="mt-4 text-3xl font-bold text-white">
-        {value}
-      </p>
 
     </div>
   );
