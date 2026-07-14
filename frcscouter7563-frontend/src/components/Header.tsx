@@ -9,10 +9,8 @@ interface HeaderProps {
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
-  console.log("HEADER RENDERIZOU");
-
   return (
-    <header className="fixed top-0 left-0 z-[60] h-14 w-full border-b border-slate-800 bg-slate-950">
+    <header className="fixed top-0 left-0 z-30 h-14 w-full border-b border-slate-800 bg-slate-950">
       <div className="flex h-full items-center justify-between px-5 lg:px-6">
 
         {/* Left */}
@@ -21,11 +19,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
           {/* Menu Button */}
           <button
             type="button"
-            onClick={() => {
-              console.log("CLIQUEI NO MENU");
-              onMenuClick();
-            }}
-            className="relative z-[100] rounded-lg p-2 transition-colors hover:bg-slate-800"
+            onClick={onMenuClick}
+            className="relative rounded-lg p-2 transition-colors hover:bg-slate-800"
             aria-label="Open menu"
           >
             <Menu className="h-6 w-6 text-white" />
