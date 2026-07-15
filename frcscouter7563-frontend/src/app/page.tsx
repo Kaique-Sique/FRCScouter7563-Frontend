@@ -21,7 +21,7 @@ export default function Home() {
   const totalTeams = 42;
   const totalMatches = 78;
   const playedMatches = 55;
-  const scoutedMatches = 50;
+  const scoutedMatches = 55;
 
   const matches = [
   {
