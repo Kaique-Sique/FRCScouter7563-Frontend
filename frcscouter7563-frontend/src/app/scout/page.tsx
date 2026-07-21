@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import EventSelector from "@/components/dashboard/EventSelector";
 import MatchSelector, {
@@ -32,21 +33,21 @@ const redAlliance = [
   {
     key: "frc7563",
     number: 7563,
-    nickname: "Megazord",
+    nickname: "red",
     avatar: "",
     station: "R1",
   },
   {
     key: "frc1156",
     number: 1156,
-    nickname: "Iron Phoenix",
+    nickname: "red",
     avatar: "",
     station: "R2",
   },
   {
-    key: "frc1772",
-    number: 1772,
-    nickname: "Thunder Robotics",
+    key: "frc6328",
+    number: 6328,
+    nickname: "red",
     avatar: "",
     station: "R3",
   },
@@ -54,31 +55,58 @@ const redAlliance = [
 
 const blueAlliance = [
   {
-    key: "frc4481",
-    number: 4481,
-    nickname: "Blue Titans",
+    key: "frc7565",
+    number: 7565,
+    nickname: "Blue",
     avatar: "",
     station: "B1",
   },
   {
-    key: "frc4613",
-    number: 4613,
-    nickname: "Cyber Wolves",
+    key: "frc1884",
+    number: 1884,
+    nickname: "Blue",
     avatar: "",
     station: "B2",
   },
   {
-    key: "frc5987",
-    number: 5987,
-    nickname: "Quantum Bots",
+    key: "frc1323",
+    number: 1323,
+    nickname: "Blue",
     avatar: "",
     station: "B3",
   },
 ];
 
 export default function ScoutPage() {
+  const router = useRouter();
+
+  const [selectedEvent, setSelectedEvent] = useState("2026brsp");
   const [selectedMatch, setSelectedMatch] = useState("");
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+
+  const teamEntry = [
+    ...redAlliance.map((team) => ({ ...team, alliance: "red" as const })),
+    ...blueAlliance.map((team) => ({ ...team, alliance: "blue" as const })),
+  ].find((team) => team.key === selectedTeam);
+
+  const canStartScout = Boolean(selectedMatch && teamEntry);
+
+  function handleStartScout() {
+    if (!teamEntry) return;
+
+    const params = new URLSearchParams({
+      event: selectedEvent,
+      match: selectedMatch,
+      team: teamEntry.key,
+      number: teamEntry.number.toString(),
+      alliance: teamEntry.alliance,
+      station: teamEntry.station,
+    });
+
+    // TODO: quando auto/teleop/pit virarem uma unica pagina de scouting,
+    // ajustar essa rota para o novo fluxo unificado.
+    router.push(`/scout/2025/auto?${params.toString()}`);
+  }
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-8">
@@ -97,7 +125,10 @@ export default function ScoutPage() {
 
       {/* Event */}
       <section>
-        <EventSelector />
+        <EventSelector
+          selectedEvent={selectedEvent}
+          onChange={setSelectedEvent}
+        />
       </section>
 
 
@@ -135,7 +166,10 @@ export default function ScoutPage() {
 
       {/* Action */}
       <section className="flex justify-center pt-2">
-        <StartScoutButton />
+        <StartScoutButton
+          disabled={!canStartScout}
+          onClick={handleStartScout}
+        />
       </section>
 
     </main>

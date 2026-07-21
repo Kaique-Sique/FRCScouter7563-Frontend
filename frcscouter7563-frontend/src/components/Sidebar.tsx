@@ -90,14 +90,6 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           />
 
           <SidebarItem
-            href="/events"
-            icon={<CalendarDays size={20} />}
-            label="Events"
-            active={pathname.startsWith("/events")}
-            onNavigate={onClose}
-          />
-
-          <SidebarItem
             href="/teams"
             icon={<Users size={20} />}
             label="Teams"

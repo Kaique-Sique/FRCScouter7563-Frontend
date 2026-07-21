@@ -41,23 +41,7 @@ export default function MatchSelector({
         <select
           value={selectedMatch}
           onChange={(e) => onChange(e.target.value)}
-          className="
-            w-full
-            appearance-none
-            rounded-lg
-            border
-            border-slate-700
-            bg-slate-950
-            px-4
-            py-3
-            pr-10
-            text-sm
-            text-white
-            transition
-            outline-none
-            hover:border-slate-600
-            focus:border-blue-500
-          "
+          className="w-full appearance-none rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 pr-10 text-sm text-white transition outline-none hover:border-slate-600 focus:border-blue-500"
         >
           <option value="" disabled>
             Select a match...
@@ -77,16 +61,7 @@ export default function MatchSelector({
         </select>
 
         <ChevronDown
-          className="
-            pointer-events-none
-            absolute
-            right-3
-            top-1/2
-            h-5
-            w-5
-            -translate-y-1/2
-            text-slate-400
-          "
+          className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
         />
       </div>
     </div>

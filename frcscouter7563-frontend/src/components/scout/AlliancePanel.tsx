@@ -1,6 +1,6 @@
 "use client";
 
-import TeamCard from "./TeamCard";
+import TeamCard from "@/components/cards/TeamCard";
 
 interface Team {
   key: string;
