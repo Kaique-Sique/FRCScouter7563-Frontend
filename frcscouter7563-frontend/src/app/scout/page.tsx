@@ -103,8 +103,8 @@ export default function ScoutPage() {
       station: teamEntry.station,
     });
 
-    // TODO: quando auto/teleop/pit virarem uma unica pagina de scouting,
-    // ajustar essa rota para o novo fluxo unificado.
+    // TODO: once auto/teleop/pit become a single scouting page,
+    // update this route to the new unified flow.
     router.push(`/scout/2025/auto?${params.toString()}`);
   }
 

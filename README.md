@@ -1,6 +1,17 @@
-# FRCScouter7563-Frontend
+<div align="center">
 
-# FRCScouter7563 Frontend Architecture
+# FRCScouter7563 — Frontend Architecture
+
+**Route-by-route reference for the Scouter7563 web application**
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)](https://nextjs.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+</div>
+
+This document maps every route in the application, its purpose, and the content it displays. For setup instructions, environment variables, and the tech stack, see the [frontend project README](frcscouter7563-frontend/README.md).
+
+## Site Map
 
 ```
 FRCScouter7563/
@@ -18,7 +29,7 @@ FRCScouter7563/
 
 ---
 
-# Home
+## Home
 
 **Route**
 
@@ -26,11 +37,11 @@ FRCScouter7563/
 /
 ```
 
-## Purpose
+### Purpose
 
 Display all events grouped by competition week.
 
-## Contents
+### Contents
 
 ```
 Week 0
@@ -53,9 +64,9 @@ Each event card redirects to:
 
 ---
 
-# Events
+## Events
 
-## Route
+### Route
 
 ```
 /events
@@ -65,13 +76,13 @@ Lists every event grouped by week.
 
 ---
 
-## Event Details
+### Event Details
 
 ```
 /events/{event_key}
 ```
 
-### Results
+#### Results
 
 ```
 Results
@@ -80,28 +91,28 @@ Results
 └── Playoffs
 ```
 
-### Teams
+#### Teams
 
 ```
 Teams
 └── Teams Table
 ```
 
-### Rankings
+#### Rankings
 
 ```
 Rankings
 └── Qualification Rankings
 ```
 
-### Insights
+#### Insights
 
 ```
 Insights
 └── Scout Rankings (Custom Metrics)
 ```
 
-### Matches
+#### Matches
 
 ```
 Matches
@@ -110,9 +121,9 @@ Matches
 
 ---
 
-# Teams
+## Teams
 
-## Route
+### Route
 
 ```
 /teams
@@ -130,7 +141,7 @@ Pagination:
 
 ---
 
-## Team Insights
+### Team Insights
 
 ```
 /teams/insights
@@ -146,39 +157,39 @@ Pagination:
 
 ---
 
-## Team Details
+### Team Details
 
 ```
 /teams/{team_number}
 ```
 
-### Overview
+#### Overview
 
 General information.
 
-### Events
+#### Events
 
 Every event attended.
 
-### Scout Insights
+#### Scout Insights
 
 Aggregated scouting statistics.
 
-### Statistics
+#### Statistics
 
 Performance metrics.
 
 ---
 
-# Matches
+## Matches
 
-## Match Details
+### Match Details
 
 ```
 /matches/{match_key}
 ```
 
-### Sections
+#### Sections
 
 ```
 Overview
@@ -200,13 +211,13 @@ Each team redirects to:
 
 ---
 
-## Team Scout View
+### Team Scout View
 
 ```
 /matches/{match_key}/{team_number}
 ```
 
-### Contents
+#### Contents
 
 ```
 Scout Data
@@ -220,9 +231,9 @@ Notes
 
 ---
 
-# Scout
+## Scout
 
-## New Scout
+### New Scout
 
 ```
 /scout
@@ -232,7 +243,7 @@ Allows the user to start a new scouting session.
 
 ---
 
-## Match Selection
+### Match Selection
 
 ```
 /scout/{match_key}
@@ -242,13 +253,13 @@ Choose one of the six teams.
 
 ---
 
-## Scout Form
+### Scout Form
 
 ```
 /scout/{match_key}/{team_number}
 ```
 
-### Sections
+#### Sections
 
 ```
 Auto
@@ -266,7 +277,7 @@ Submit
 
 ---
 
-# Navigation Flow
+## Navigation Flow
 
 ```
 Home

@@ -7,9 +7,9 @@ interface EventOption {
   name: string;
 }
 
-// TODO: substituir por dados reais vindos da API (GET /events) quando a
-// integração com o backend for feita. Por enquanto ficam alguns eventos
-// de exemplo pra o seletor não ficar vazio.
+// TODO: replace with real data from the API (GET /events) once the
+// backend integration is in place. For now a few sample events are
+// hardcoded so the selector isn't empty.
 const MOCK_EVENTS: EventOption[] = [
   { key: "2026brbri", name: "2026 Brazil Regional" },
   { key: "2026miket", name: "2026 Kettering University District" },

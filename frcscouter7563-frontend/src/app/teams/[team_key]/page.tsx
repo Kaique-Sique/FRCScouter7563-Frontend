@@ -5,8 +5,6 @@ import TeamSidebar from "@/components/team/TeamSideBar";
 import { getTeam } from "@/lib/api/teams";
 import { notFound } from "next/navigation";
 import ScoutStats from "@/components/team/stats/ScoutStats";
-import EndgameChart from "@/components/team/charts/EndgameChart";
-import ScoringChart from "@/components/team/charts/ScoringChart";
 import PerformanceChart from "@/components/team/charts/PerformaceChart";
 import ScoreBreakdownChart from "@/components/team/charts/ScoringChart";
 
@@ -39,7 +37,7 @@ export default async function TeamPage({
             <TeamHeader team={team} />
 
 
-            {/* Cards principais */}
+            {/* Main cards */}
             <div className="mt-6">
 
                 <TeamOverviewStats
@@ -60,7 +58,7 @@ export default async function TeamPage({
 
 
 
-            {/* Corpo da página */}
+            {/* Page body */}
             <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
 
 
@@ -69,7 +67,7 @@ export default async function TeamPage({
 
 
 
-                {/* Conteúdo */}
+                {/* Content */}
                 <section className="min-w-0 space-y-6">
 
                     <PerformanceChart

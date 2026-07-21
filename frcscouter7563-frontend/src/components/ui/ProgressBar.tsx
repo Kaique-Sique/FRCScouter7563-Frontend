@@ -14,28 +14,28 @@ export default function ProgressBar({
   animated = true,
 }: ProgressBarProps) {
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(animated ? 0 : value);
 
   useEffect(() => {
-    if (!animated) {
-      setProgress(value);
-      return;
-    }
+    if (!animated) return;
 
-    requestAnimationFrame(() => {
+    const frame = requestAnimationFrame(() => {
       setProgress(value);
     });
 
+    return () => cancelAnimationFrame(frame);
   }, [value, animated]);
 
+  const displayValue = animated ? progress : value;
+
   const color =
-    progress >= 100
+    displayValue >= 100
       ? "#22c55e"
-      : progress >= 75
+      : displayValue >= 75
       ? "#3b82f6"
-      : progress >= 50
+      : displayValue >= 50
       ? "#eab308"
-      : progress >= 25
+      : displayValue >= 25
       ? "#f97316"
       : "#ef4444";
 
@@ -46,7 +46,7 @@ export default function ProgressBar({
       <div
         className={`relative overflow-hidden rounded-full ${height} transition-all duration-700 ease-out`}
         style={{
-          width: `${progress}%`,
+          width: `${displayValue}%`,
           backgroundColor: color,
         }}
       >
@@ -62,7 +62,7 @@ export default function ProgressBar({
         />
 
         {/* Shine when complete */}
-        {progress === 100 && (
+        {displayValue === 100 && (
           <div
             className="absolute inset-0"
             style={{

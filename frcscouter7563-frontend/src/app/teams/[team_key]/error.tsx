@@ -9,14 +9,14 @@ export default function Error({
   return (
     <main className="flex h-[70vh] flex-col items-center justify-center gap-4">
       <h1 className="text-3xl font-bold">
-        Erro ao carregar equipe
+        Failed to load team
       </h1>
 
       <button
         onClick={reset}
         className="rounded-lg bg-blue-600 px-4 py-2"
       >
-        Tentar novamente
+        Try again
       </button>
     </main>
   );

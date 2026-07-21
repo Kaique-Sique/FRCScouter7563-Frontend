@@ -51,7 +51,7 @@ export default function TeamHeader({
                 <div className="absolute inset-0 bg-black/40" />
             </div>
 
-            {/* Conteúdo */}
+            {/* Content */}
             <div className="relative px-8 pb-8">
 
                 {/* Avatar */}
@@ -74,7 +74,7 @@ export default function TeamHeader({
 
                     </div>
 
-                    {/* Informações */}
+                    {/* Information */}
                     <div className="flex flex-1 flex-col justify-end">
 
                         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -104,7 +104,7 @@ export default function TeamHeader({
 
                         </div>
 
-                        {/* Informações rápidas */}
+                        {/* Quick info */}
                         <div className="mt-5 flex flex-wrap gap-6 text-sm text-slate-400">
 
                             {(team.city || team.country) && (

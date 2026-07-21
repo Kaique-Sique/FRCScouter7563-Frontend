@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   Building2,
   Calendar,
-  Globe,
   MapPin,
   Users,
   Star,
@@ -79,7 +78,7 @@ export default function TeamSidebar({
   return (
     <aside className="sticky top-20 h-fit space-y-6">
 
-      {/* Informações */}
+      {/* Information */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
 
         <h2 className="mb-5 text-lg font-semibold">
@@ -156,7 +155,7 @@ export default function TeamSidebar({
 
       </div>
 
-      {/* Ações */}
+      {/* Actions */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
 
         <h2 className="mb-5 text-lg font-semibold">

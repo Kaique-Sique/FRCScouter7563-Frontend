@@ -12,18 +12,20 @@ import {
 import EventSelector from "@/components/dashboard/EventSelector";
 import StatCard from "@/components/cards/StatCard";
 import ProgressCard from "@/components/cards/ProgressCard";
-import UpcomingMatches from "@/components/dashboard/UpcomingMatches";
+import UpcomingMatches, {
+  Match,
+} from "@/components/dashboard/UpcomingMatches";
 
 export default function Home() {
   const [event, setEvent] = useState("2026brbri");
 
-  // Dados temporários
+  // Temporary data
   const totalTeams = 42;
   const totalMatches = 78;
   const playedMatches = 55;
   const scoutedMatches = 5;
 
-  const matches = [
+  const matches: Match[] = [
   {
     key: "2026brbri_qm56",
     match: "Qual 56",

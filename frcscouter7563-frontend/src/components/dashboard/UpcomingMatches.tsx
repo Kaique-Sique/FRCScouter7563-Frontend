@@ -1,9 +1,16 @@
 import MatchRow from "@/components/cards/MatchRowCard";
 
-interface Match {
+interface MatchTeam {
+  team: number;
+  favorite?: boolean;
+}
+
+export interface Match {
+  key: string;
   match: string;
-  red: string[];
-  blue: string[];
+  status: "live" | "on_field" | "scheduled";
+  red: MatchTeam[];
+  blue: MatchTeam[];
 }
 
 interface UpcomingMatchesProps {

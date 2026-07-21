@@ -2,7 +2,7 @@ import TeamCard from "@/components/team/TeamCard";
 import { Star } from "lucide-react";
 
 export default async function TeamsPage() {
-  // TODO: Buscar da API
+  // TODO: Fetch from the API
   const teams = [
     {
       team_key: "frc7563",
