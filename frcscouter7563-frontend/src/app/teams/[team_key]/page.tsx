@@ -26,63 +26,7 @@ export default async function TeamPage({
 
     const team = await getTeam(team_key);
 
-    const performance = [
-        {
-            match: "QM1",
-            score: 98
-        },
-        {
-            match: "QM2",
-            score: 112
-        },
-        {
-            match: "QM3",
-            score: 126
-        },
-        {
-            match: "QM4",
-            score: 104
-        }
-    ];
-
-    [
-        {
-            name: "L1",
-            value: 15
-        },
-        {
-            name: "L2",
-            value: 30
-        },
-        {
-            name: "L3",
-            value: 70
-        },
-        {
-            name: "L4",
-            value: 95
-        },
-        {
-            name: "Algae",
-            value: 42
-        }
-    ];
-
-    [
-        {
-            name: "Climbed",
-            value: 78
-        },
-        {
-            name: "Parked",
-            value: 15
-        },
-        {
-            name: "On Field",
-            value: 7
-        }
-    ];
-
+    
     if (!team) {
         notFound();
     }
