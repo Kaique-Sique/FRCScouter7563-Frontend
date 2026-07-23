@@ -1,10 +1,25 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import EventFilters from "@/components/events/EventFilters";
 import EventSection from "@/components/events/EventSection";
+import type { FilterType } from "@/components/events/EventFilters";
+import type { EventItem } from "@/components/events/types";
 import { Search } from "lucide-react";
+
+const SECTION_TITLES: Record<FilterType, string> = {
+    preseason: "Preseason",
+    week1: "Week 1",
+    week2: "Week 2",
+    week3: "Week 3",
+    week4: "Week 4",
+    week5: "Week 5",
+    week6: "Week 6",
+    week7: "Week 7",
+    championship: "Championship",
+    offseason: "Offseason",
+};
 
 export default function EventsPage() {
 
@@ -38,11 +53,25 @@ export default function EventsPage() {
     const offseasonRef =
         useRef<HTMLElement>(null);
 
+    const sectionRefs: Record<FilterType, React.RefObject<HTMLElement | null>> = {
+        preseason: preseasonRef,
+        week1: week1Ref,
+        week2: week2Ref,
+        week3: week3Ref,
+        week4: week4Ref,
+        week5: week5Ref,
+        week6: week6Ref,
+        week7: week7Ref,
+        championship: championshipRef,
+        offseason: offseasonRef,
+    };
 
-    const events = {
+
+    const [events, setEvents] = useState<Record<FilterType, EventItem[]>>({
 
         preseason: [
             {
+                event_key: "2026casf",
                 name: "Preseason Test Event",
                 city: "São Paulo",
                 country: "Brazil",
@@ -56,6 +85,7 @@ export default function EventsPage() {
 
         week1: [
             {
+                event_key: "2026sao",
                 name: "São Paulo Regional",
                 city: "São Paulo",
                 country: "Brazil",
@@ -66,6 +96,7 @@ export default function EventsPage() {
             },
 
             {
+                event_key: "2026arli",
                 name: "Arkansas Regional",
                 city: "Little Rock",
                 country: "USA",
@@ -78,6 +109,7 @@ export default function EventsPage() {
 
         week2: [
             {
+                event_key: "2026miova",
                 name: "Miami Valley Regional",
                 city: "Dayton",
                 country: "USA",
@@ -90,6 +122,7 @@ export default function EventsPage() {
 
         week3: [
             {
+                event_key: "2026arli2",
                 name: "Arkansas Regional",
                 city: "Little Rock",
                 country: "USA",
@@ -101,6 +134,7 @@ export default function EventsPage() {
 
         week4: [
             {
+                event_key: "2026arli3",
                 name: "Arkansas Regional",
                 city: "Little Rock",
                 country: "USA",
@@ -112,6 +146,7 @@ export default function EventsPage() {
 
         week5: [
             {
+                event_key: "2026arli4",
                 name: "Arkansas Regional",
                 city: "Little Rock",
                 country: "USA",
@@ -123,6 +158,7 @@ export default function EventsPage() {
 
         week6: [
             {
+                event_key: "2026arli5",
                 name: "Arkansas Regional",
                 city: "Little Rock",
                 country: "USA",
@@ -134,6 +170,7 @@ export default function EventsPage() {
 
         week7: [
             {
+                event_key: "2026arli6",
                 name: "Arkansas Regional",
                 city: "Little Rock",
                 country: "USA",
@@ -146,6 +183,7 @@ export default function EventsPage() {
 
         championship: [
             {
+                event_key: "2026cmptx",
                 name: "FIRST Championship",
                 city: "Houston",
                 country: "USA",
@@ -159,6 +197,7 @@ export default function EventsPage() {
 
         offseason: [
             {
+                event_key: "2026spoff",
                 name: "Offseason Competition",
                 city: "São Paulo",
                 country: "Brazil",
@@ -168,7 +207,55 @@ export default function EventsPage() {
             },
         ],
 
-    };
+    });
+
+    const [favoriteOnly, setFavoriteOnly] =
+        useState(false);
+
+    function toggleEventFavorite(eventKey: string) {
+
+        setEvents((old) => {
+
+            const next = { ...old };
+
+            (Object.keys(next) as FilterType[]).forEach((week) => {
+                next[week] = next[week].map((event) =>
+                    event.event_key === eventKey
+                        ? { ...event, favorite: !event.favorite }
+                        : event
+                );
+            });
+
+            return next;
+
+        });
+
+    }
+
+    // quando o filtro de favoritos está ativo, só sobram as semanas
+    // que têm pelo menos um evento favoritado, e só os eventos favoritados nelas
+    const visibleWeeks = useMemo(() => {
+
+        return (Object.keys(SECTION_TITLES) as FilterType[])
+            .map((week) => ({
+                week,
+                title: SECTION_TITLES[week],
+                data: favoriteOnly
+                    ? events[week].filter((event) => event.favorite)
+                    : events[week],
+            }))
+            .filter((section) => !favoriteOnly || section.data.length > 0);
+
+    }, [events, favoriteOnly]);
+
+    // sectionRefs é feito de refs estáveis (useRef), então isso nunca muda de identidade
+    const stableSectionRefs = useMemo(() => sectionRefs, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // ids das semanas atualmente renderizadas (sem tocar em refs durante o render)
+    const visibleWeekIds = useMemo(
+        () => visibleWeeks.map((section) => section.week),
+        [visibleWeeks]
+    );
 
 
     return (
@@ -212,18 +299,10 @@ export default function EventsPage() {
 
                 {/* Filters */}
                 <EventFilters
-                    sections={{
-                        preseason: preseasonRef,
-                        week1: week1Ref,
-                        week2: week2Ref,
-                        week3: week3Ref,
-                        week4: week4Ref,
-                        week5: week5Ref,
-                        week6: week6Ref,
-                        week7: week7Ref,
-                        championship: championshipRef,
-                        offseason: offseasonRef,
-                        }}
+                    sections={stableSectionRefs}
+                    visibleSections={visibleWeekIds}
+                    favorite={favoriteOnly}
+                    onToggleFavorite={() => setFavoriteOnly((old) => !old)}
                     />
 
 
@@ -238,74 +317,17 @@ export default function EventsPage() {
                 "
             >
 
-                <EventSection
-                    title="Preseason"
-                    events={events.preseason}
-                    sectionRef={preseasonRef}
-                />
+                {visibleWeeks.map((section) => (
 
+                    <EventSection
+                        key={section.week}
+                        title={section.title}
+                        events={section.data}
+                        sectionRef={sectionRefs[section.week]}
+                        onToggleFavorite={toggleEventFavorite}
+                    />
 
-                <EventSection
-                    title="Week 1"
-                    events={events.week1}
-                    sectionRef={week1Ref}
-                />
-
-
-                <EventSection
-                    title="Week 2"
-                    events={events.week2}
-                    sectionRef={week2Ref}
-                />
-
-
-                <EventSection
-                    title="Week 3"
-                    events={events.week3}
-                    sectionRef={week3Ref}
-                />
-
-
-                <EventSection
-                    title="Week 4"
-                    events={events.week4}
-                    sectionRef={week4Ref}
-                />
-
-
-                <EventSection
-                    title="Week 5"
-                    events={events.week5}
-                    sectionRef={week5Ref}
-                />
-
-
-                <EventSection
-                    title="Week 6"
-                    events={events.week6}
-                    sectionRef={week6Ref}
-                />
-
-
-                <EventSection
-                    title="Week 7"
-                    events={events.week7}
-                    sectionRef={week7Ref}
-                />
-
-
-                <EventSection
-                    title="Championship"
-                    events={events.championship}
-                    sectionRef={championshipRef}
-                />
-
-
-                <EventSection
-                    title="Offseason"
-                    events={events.offseason}
-                    sectionRef={offseasonRef}
-                />
+                ))}
 
             </div>
 
@@ -313,4 +335,3 @@ export default function EventsPage() {
 
     );
 }
-
