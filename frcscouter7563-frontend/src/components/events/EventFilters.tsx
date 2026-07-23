@@ -62,11 +62,11 @@ export default function EventFilters({
     sections,
 }: EventFiltersProps) {
 
+    const [activeSection, setActiveSection] =
+        useState<FilterType>("preseason");
+
     const [favorite, setFavorite] =
         useState(false);
-
-    const [selected, setSelected] =
-        useState<FilterType>("week1");
 
     const scrollRef =
         useRef<HTMLDivElement>(null);
@@ -94,12 +94,6 @@ export default function EventFilters({
 
     function toggleFavorite() {
         setFavorite((old) => !old);
-    }
-
-    function select(id: FilterType) {
-
-        setSelected(id);
-
     }
 
     useEffect(() => {
@@ -133,7 +127,56 @@ export default function EventFilters({
             });
         }
 
-    }, [selected]);
+    }, [activeSection]);
+
+    useEffect(() => {
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+
+                const visible =
+                    entries
+                        .filter(
+                            (entry) => entry.isIntersecting
+                        )
+                        .sort(
+                            (a, b) =>
+                                b.intersectionRatio -
+                                a.intersectionRatio
+                        )[0];
+
+
+                if (!visible)
+                    return;
+
+
+                setActiveSection(
+                    visible.target.id as FilterType
+                );
+
+            },
+            {
+                rootMargin: "-40% 0px -50% 0px",
+                threshold: 0,
+            }
+        );
+
+
+        Object.values(sections).forEach((section) => {
+
+            if (section.current) {
+
+                observer.observe(section.current);
+
+            }
+
+        });
+
+
+        return () => observer.disconnect();
+
+
+    }, [sections]);
 
     return (
         <div className="relative flex items-center">
@@ -181,7 +224,7 @@ export default function EventFilters({
                 {filters.map((filter) => {
 
                     const active =
-                        selected === filter.id;
+                        activeSection === filter.id;
 
                     const gold =
                         filter.gold;
@@ -194,7 +237,6 @@ export default function EventFilters({
                                 refs.current[filter.id] = el;
                             }}
                             onClick={() => {
-                                select(filter.id);
                                 scrollToSection(filter.id);
                             }}
                             className={[

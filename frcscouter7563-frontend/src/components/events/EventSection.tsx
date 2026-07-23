@@ -23,6 +23,7 @@ export default function EventSection({
     return (
         <section
             ref={sectionRef}
+            id={title.toLowerCase().replace(" ", "")}
             className="scroll-mt-60 space-y-4"
         >
 
