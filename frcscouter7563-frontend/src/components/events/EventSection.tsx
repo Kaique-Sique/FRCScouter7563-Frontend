@@ -11,7 +11,7 @@ interface EventSectionProps {
         teams: number;
         favorite?: boolean;
     }>;
-    sectionRef?: React.RefObject<HTMLElement>;
+    sectionRef?: React.RefObject<HTMLElement | null>;
 }
 
 export default function EventSection({

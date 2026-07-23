@@ -98,7 +98,7 @@ export default function EventFilters({
 
     useEffect(() => {
         const container = scrollRef.current;
-        const button = refs.current[selected];
+        const button = refs.current[activeSection];
 
         if (!container || !button)
             return;
