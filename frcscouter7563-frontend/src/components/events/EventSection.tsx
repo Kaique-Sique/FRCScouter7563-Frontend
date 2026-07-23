@@ -1,23 +1,18 @@
 import EventCard from "@/components/events/EventCard";
+import type { EventItem } from "@/components/events/types";
 
 interface EventSectionProps {
     title: string;
-    events: Array<{
-        name: string;
-        city: string;
-        country: string;
-        startDate: string;
-        endDate: string;
-        teams: number;
-        favorite?: boolean;
-    }>;
+    events: EventItem[];
     sectionRef?: React.RefObject<HTMLElement | null>;
+    onToggleFavorite?: (eventKey: string) => void;
 }
 
 export default function EventSection({
     title,
     events,
     sectionRef,
+    onToggleFavorite,
 }: EventSectionProps) {
 
     return (
@@ -63,8 +58,9 @@ export default function EventSection({
                 {events.map((event) => (
 
                     <EventCard
-                        key={event.name}
+                        key={event.event_key}
                         event={event}
+                        onToggleFavorite={onToggleFavorite}
                     />
 
                 ))}

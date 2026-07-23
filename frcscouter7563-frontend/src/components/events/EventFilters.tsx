@@ -3,22 +3,7 @@
 import { Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-interface EventFiltersProps {
-    sections: {
-        preseason: React.RefObject<HTMLElement | null>;
-        week1: React.RefObject<HTMLElement | null>;
-        week2: React.RefObject<HTMLElement | null>;
-        week3: React.RefObject<HTMLElement | null>;
-        week4: React.RefObject<HTMLElement | null>;
-        week5: React.RefObject<HTMLElement | null>;
-        week6: React.RefObject<HTMLElement | null>;
-        week7: React.RefObject<HTMLElement | null>;
-        championship: React.RefObject<HTMLElement | null>;
-        offseason: React.RefObject<HTMLElement | null>;
-    };
-}
-
-type FilterType =
+export type FilterType =
     | "preseason"
     | "week1"
     | "week2"
@@ -30,13 +15,20 @@ type FilterType =
     | "championship"
     | "offseason";
 
+interface EventFiltersProps {
+    sections: Record<FilterType, React.RefObject<HTMLElement | null>>;
+    visibleSections: FilterType[];
+    favorite: boolean;
+    onToggleFavorite: () => void;
+}
+
 interface Filter {
     id: FilterType;
     label: string;
     gold?: boolean;
 }
 
-const filters: Filter[] = [
+const ALL_FILTERS: Filter[] = [
     { id: "preseason", label: "Preseason" },
     { id: "week1", label: "Week 1" },
     { id: "week2", label: "Week 2" },
@@ -60,13 +52,27 @@ const filters: Filter[] = [
 
 export default function EventFilters({
     sections,
+    visibleSections,
+    favorite,
+    onToggleFavorite,
 }: EventFiltersProps) {
+
+    // só mostra pills das seções que estão de fato renderizadas agora
+    // (ex: quando o filtro de favoritos esconde semanas sem eventos favoritados)
+    const filters = ALL_FILTERS.filter((filter) =>
+        visibleSections.includes(filter.id)
+    );
 
     const [activeSection, setActiveSection] =
         useState<FilterType>("preseason");
 
-    const [favorite, setFavorite] =
-        useState(false);
+    // se a seção ativa não estiver mais visível (ex: favoritos escondeu ela),
+    // cai pra primeira seção visível só pra fins de renderização —
+    // sem disparar setState dentro de efeito
+    const effectiveActiveSection: FilterType =
+        visibleSections.includes(activeSection)
+            ? activeSection
+            : visibleSections[0] ?? activeSection;
 
     const scrollRef =
         useRef<HTMLDivElement>(null);
@@ -92,13 +98,9 @@ export default function EventFilters({
 
 }
 
-    function toggleFavorite() {
-        setFavorite((old) => !old);
-    }
-
     useEffect(() => {
         const container = scrollRef.current;
-        const button = refs.current[activeSection];
+        const button = refs.current[effectiveActiveSection];
 
         if (!container || !button)
             return;
@@ -127,7 +129,7 @@ export default function EventFilters({
             });
         }
 
-    }, [activeSection]);
+    }, [effectiveActiveSection]);
 
     useEffect(() => {
 
@@ -162,9 +164,11 @@ export default function EventFilters({
         );
 
 
-        Object.values(sections).forEach((section) => {
+        visibleSections.forEach((id) => {
 
-            if (section.current) {
+            const section = sections[id];
+
+            if (section?.current) {
 
                 observer.observe(section.current);
 
@@ -176,14 +180,14 @@ export default function EventFilters({
         return () => observer.disconnect();
 
 
-    }, [sections]);
+    }, [sections, visibleSections]);
 
     return (
         <div className="relative flex items-center">
 
             {/* Favorite */}
             <button
-                onClick={toggleFavorite}
+                onClick={onToggleFavorite}
                 className={[
                     "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all duration-200",
 
@@ -224,7 +228,7 @@ export default function EventFilters({
                 {filters.map((filter) => {
 
                     const active =
-                        activeSection === filter.id;
+                        effectiveActiveSection === filter.id;
 
                     const gold =
                         filter.gold;

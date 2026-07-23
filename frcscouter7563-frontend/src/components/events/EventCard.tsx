@@ -1,25 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import { Star, MapPin, Users, CalendarDays } from "lucide-react";
+import type { EventItem } from "@/components/events/types";
 
 interface EventCardProps {
-    event: {
-        name: string;
-        city: string;
-        country: string;
-        startDate: string;
-        endDate: string;
-        teams: number;
-        favorite?: boolean;
-    };
+    event: EventItem;
+    onToggleFavorite?: (eventKey: string) => void;
 }
 
 export default function EventCard({
     event,
+    onToggleFavorite,
 }: EventCardProps) {
 
     return (
-        <article
+        <Link
+            href={`/event/${event.event_key}`}
             className="
                 group
                 flex
@@ -86,24 +83,28 @@ export default function EventCard({
 
             {/* Favorite */}
             <button
-                className="
-                    flex
-                    h-10
-                    w-10
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-xl
-                    border
-                    border-slate-700
-                    text-slate-400
-                    transition-all
-                    duration-200
+                type="button"
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onToggleFavorite?.(event.event_key);
+                }}
+                className={[
+                    "flex",
+                    "h-10",
+                    "w-10",
+                    "shrink-0",
+                    "items-center",
+                    "justify-center",
+                    "rounded-xl",
+                    "border",
+                    "transition-all",
+                    "duration-200",
 
-                    hover:border-amber-400
-                    hover:bg-amber-500/10
-                    hover:text-amber-400
-                "
+                    event.favorite
+                        ? "border-amber-400 bg-amber-500/10 text-amber-400"
+                        : "border-slate-700 text-slate-400 hover:border-amber-400 hover:bg-amber-500/10 hover:text-amber-400",
+                ].join(" ")}
             >
 
                 <Star
@@ -113,16 +114,11 @@ export default function EventCard({
                             ? "currentColor"
                             : "none"
                     }
-                    className={
-                        event.favorite
-                            ? "text-amber-400"
-                            : ""
-                    }
                 />
 
             </button>
 
 
-        </article>
+        </Link>
     );
 }
