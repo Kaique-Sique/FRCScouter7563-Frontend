@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #040b2bff;
+  --background: rgb(3, 6, 23);
   --foreground: #f8fafc;
 }
 
@@ -55,4 +55,38 @@ body {
   to {
     transform: translateX(250%);
   }
+}
+
+/* Global Scrollbar */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #334155 transparent;
+}
+
+/* Chrome, Edge, Safari */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
 }

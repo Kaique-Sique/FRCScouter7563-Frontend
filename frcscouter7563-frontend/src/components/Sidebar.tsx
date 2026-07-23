@@ -6,12 +6,12 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
-  Trophy,
   GitCompareArrows,
   BarChart3,
   Star,
   Settings,
   X,
+  CalendarDays,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -89,18 +89,18 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           />
 
           <SidebarItem
-            href="/teams"
-            icon={<Users size={20} />}
-            label="Teams"
-            active={pathname.startsWith("/teams")}
+            href="/events"
+            icon={<CalendarDays size={20} />}
+            label="Events"
+            active={pathname.startsWith("/events")}
             onNavigate={onClose}
           />
 
           <SidebarItem
-            href="/matches"
-            icon={<Trophy size={20} />}
-            label="Matches"
-            active={pathname.startsWith("/matches")}
+            href="/teams"
+            icon={<Users size={20} />}
+            label="Teams"
+            active={pathname.startsWith("/teams")}
             onNavigate={onClose}
           />
 
